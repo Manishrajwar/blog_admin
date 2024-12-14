@@ -19,6 +19,61 @@ function CreatePage() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
+  const config = {
+    readonly: false, // Enable editing
+    toolbarSticky: true, // Sticky toolbar
+    style: {
+      fontFamily: "Poppins, sans-serif", // Default font-family
+    },
+    fontfamily: {
+      "Poppins": "Poppins, sans-serif", // Add Poppins
+      "Arial": "Arial, sans-serif",
+      "Georgia": "Georgia, serif",
+      "Times New Roman": "Times New Roman, serif",
+      "Verdana": "Verdana, sans-serif",
+    },
+    buttons: [
+      "source",
+      "|",
+      "bold",
+      "italic",
+      "underline",
+      "strikethrough",
+      "|",
+      "superscript",
+      "subscript",
+      "|",
+      "ul",
+      "ol",
+      "outdent",
+      "indent",
+      "|",
+      "font",
+      "fontsize",
+      "brush",
+      "paragraph",
+      "|",
+      "image",
+      "video",
+      "table",
+      "link",
+      "|",
+      "align",
+      "undo",
+      "redo",
+      "|",
+      "hr",
+      "eraser",
+      "fullsize",
+    ],
+    uploader: {
+      insertImageAsBase64URI: true, // Allow images as Base64
+    },
+    height: 400, // Set editor height
+    width: "100%", // Full width
+    placeholder: "Start typing here...",
+  };
+
   const [content, setContent] = useState("");
 
   const editor = useRef(null);
@@ -127,6 +182,15 @@ function CreatePage() {
 
         <label>
           <p>Description</p>
+
+          {/* <JoditEditor
+      ref={editor}
+      value={content}
+      config={config}
+      tabIndex={1} // Tab index for editor
+      onBlur={(newContent) => setContent(newContent)}
+      onChange={(newContent) => setContent(newContent)}
+    /> */}
           <JoditEditor
                         ref={editor}
                         value={content}
