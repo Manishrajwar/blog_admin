@@ -6,6 +6,7 @@ const baseurl = `https://backblog.kusheldigi.com`;
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function Blogs() {
     try {
       const response = await axios.get(`${baseurl}/api/v1/auth/getAllBlogAdmin`);
       setBlogs(response.data.blogs);
+      setFilteredBlogs(response.data.blogs); // Initialize filteredBlogs with all blogs
     } catch (error) {
       console.error('Error fetching blogs:', error);
     } finally {
@@ -31,6 +33,7 @@ function Blogs() {
       if (response.data.status) {
         alert('Blog deleted successfully');
         setBlogs(blogs.filter((blog) => blog._id !== blogId));
+        setFilteredBlogs(filteredBlogs.filter((blog) => blog._id !== blogId)); // Update filteredBlogs as well
       }
     } catch (error) {
       console.error('Error deleting blog:', error);
@@ -38,13 +41,11 @@ function Blogs() {
     }
   };
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`${baseurl}/api/v1/auth/searchBlog?term=${searchTerm}`);
-      setBlogs(response.data.blogs);
-    } catch (error) {
-      console.error('Error searching blogs:', error);
-    }
+  const handleSearch = () => {
+    const filtered = blogs.filter((blog) =>
+      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredBlogs(filtered);
   };
 
   if (loading) {
@@ -64,8 +65,8 @@ function Blogs() {
       </div>
       <h2>All Blogs</h2>
       <div className="blogs-container">
-        {blogs.length > 0 ? (
-          blogs.map((blog) => (
+        {filteredBlogs.length > 0 ? (
+          filteredBlogs.map((blog) => (
             <div key={blog._id} className="blog-box">
               <h3 className="blog-title">{blog.title}</h3>
               <p className="blog-description">{blog.subdescription}</p>
