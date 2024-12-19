@@ -40,6 +40,7 @@ function Category() {
 
   return (
     <div>
+      
       <h2 style={{ textAlign: 'center' }}>All Category</h2>
       <div className="blogs-container">
         {blogs?.map((blog) => (
@@ -54,6 +55,7 @@ function Category() {
         ))}
       </div>
     </div>
+    
   );
 }
 
