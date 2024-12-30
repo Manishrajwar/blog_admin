@@ -18,6 +18,7 @@ function Category() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(`${baseurl}/api/v1/auth/categories`);
+    
       setBlogs(response.data.categories);
       setRefreshFlag(!refreshFlag)
     } catch (error) {

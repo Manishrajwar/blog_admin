@@ -4,8 +4,8 @@ import "./page.css";
 import { useNavigate } from "react-router-dom";
 import JoditEditor from "jodit-react";
 
-// const baseurl = "http://localhost:4000";
-const baseurl = `https://backblog.kusheldigi.com`
+const baseurl = "http://localhost:4000";
+// const baseurl = `https://backblog.kusheldigi.com`
 
 function CreatePage() {
   const [formData, setFormData] = useState({
@@ -14,7 +14,9 @@ function CreatePage() {
     banner: [],
     categoryId: "",
     subdescription:"" , 
-    author:""
+    author:"",
+    time: "" 
+
   });
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
@@ -94,6 +96,7 @@ function CreatePage() {
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(`${name}: ${value}`); // Debugging
     setFormData({ ...formData, [name]: value });
   };
 
@@ -116,6 +119,7 @@ function CreatePage() {
     data.append("subdescription", formData.subdescription); 
     data.append("categoryId", formData.categoryId);
     data.append("author", formData.author);
+    data.append("time", formData.time);
     formData.images.forEach((image) => data.append("images", image));
     formData.banner.forEach((image) => data.append("banner", image));
 
@@ -123,8 +127,9 @@ function CreatePage() {
       const response = await axios.post(`${baseurl}/api/v1/auth/createBlog`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+console.log(response.data)
       if (response.data.status) {
+        
         alert("Blog created successfully!");
         setFormData({
           title: "",
@@ -132,7 +137,8 @@ function CreatePage() {
           images: [],
           banner: [],
           categoryId: "",
-          author:""
+          author:"",
+          time: "" 
         });
         navigate("/allBlog");
       }
@@ -175,6 +181,17 @@ function CreatePage() {
             type="text"
             name="author"
             value={formData.author}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        {/* Add times take to read blog by Rajeev  */}
+        <label>
+          <p>Reading Time</p>
+          <input
+            type="time"
+            name="time"
+            value={formData.time}
             onChange={handleInputChange}
             required
           />

@@ -18,8 +18,10 @@ function Blogs() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(`${baseurl}/api/v1/auth/getAllBlogAdmin`);
-      setBlogs(response.data.blogs);
-      setFilteredBlogs(response.data.blogs); // Initialize filteredBlogs with all blogs
+      // console.log("Blog data id fetched here ",response.data.blogs)
+      const reversedBlogs = response.data.blogs.reverse();
+      setBlogs(reversedBlogs);
+      setFilteredBlogs(reversedBlogs); // Initialize filteredBlogs with all blogs
     } catch (error) {
       console.error('Error fetching blogs:', error);
     } finally {
